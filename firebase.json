@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "docs",
+    "site": "dana096-hellovue",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
