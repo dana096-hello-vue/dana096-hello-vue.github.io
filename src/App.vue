@@ -14,13 +14,19 @@ async function fetchData() {
 
 fetchData()
 
+function get() {
+        todoId.value++
+        fetchData()
+}
+
+// 감사자
 watch(todoId, fetchData)
 
 </script>
 
 <template>
 	<p>Todo id: {{ todoId }}</p>
-	<button @click="todoId++" :disabled="!todoData">Fetch next todo</button>
+	<button @click="get" :disabled="!todoData">Fetch next todo</button>
 	<p v-if="!todoData">Loading...</p>
 	<pre v-else>{{ todoData }}</pre>
 </template>
