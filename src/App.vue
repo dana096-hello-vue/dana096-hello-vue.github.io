@@ -1,35 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
-const show = ref(true)
-const list = ref([1, 2, 3])
+const todoId = ref(1);
+const todoData = ref(null)
 
-function rendering() {
-	show.value = !show.value
+async function fetchData() {
+	todoData.value = null
+	const res = await fetch(
+		`https://jsonplaceholder.typicode.com/todos/${todoId.value}`
+	)
+	todoData.value = await res.json()
 }
 
-function addList() {
-	list.value.push(list.value.length + 1)
-}
+fetchData()
 
-function removeList() {
-	list.value.pop()
-}
+watch(todoId, fetchData)
 
-function reverse() {
-	list.value.reverse()
-}
 </script>
 
 <template>
-<button @click="rendering()">List 렌더링 ON/OFF </button>
-<button @click="addList()">List 추가</button>
-<button @click="removeList()">List 제거</button>
-<button @click="reverse()">List 뒤집기</button>
-
-<ul v-if="show && list.length">
-	<li v-for="item of list">{{ item }}</li>
-</ul>
-<p v-else-if="list.length">List is not empty, but hidden.</p>
-<p v-else>List is emtpy.</p>
+	<p>Todo id: {{ todoId }}</p>
+	<button @click="todoId++" :disabled="!todoData">Fetch next todo</button>
+	<p v-if="!todoData">Loading...</p>
+	<pre v-else>{{ todoData }}</pre>
 </template>
